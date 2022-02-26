@@ -17,25 +17,31 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    // @Bean memberService 호출할 때 new 생성자를 호출하잖아 !
+
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
     @Bean
     public DiscountPolicy discountPolicy() {
+        System.out.println("call AppConfig.discountPolicy");
         return new FlexibleDiscountPolicy();
     }
 
     // 어딘가에서 memberService 객체를 불러다 쓸텐데, 그 때
     @Bean
     public MemberService memberService() {
+        System.out.println("call AppConfig.memberService");
         // memberService의 구현체를 return해주는데, 여기에 구현체를 넣어줌.
         return new MemberServiceImpl(memberRepository());
     }
 
     @Bean
     public OrderService orderService() {
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
