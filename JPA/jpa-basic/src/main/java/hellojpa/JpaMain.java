@@ -17,28 +17,10 @@ public class JpaMain {
 
         // 정석 코드는 try catch 안에 써야함.
         try {
-            // CREATE
-//            Member member = new Member();
-//            member.setId(2L);
-//            member.setName("hello2");
-//            em.persist(member);
+            // 아직 비영속
+            Member member1 = new Member(200L, "aa");
+            Member member2 = new Member(160L, "bb");
 
-            // UPDATE
-//            Member findMember = em.find(Member.class, 2L);
-//            findMember.setName("Leo Hello JPA");
-//            System.out.println("findMember.getId() = " + findMember.getId());
-//            System.out.println("findMember.getName() = " + findMember.getName());
-
-
-            // DELETE
-//            Member findMember = em.find(Member.class, 1L);
-//            findMember.setName("leo");
-//            Member member = em.find(Member.class, 1L);
-//            System.out.println("member.toString() = " + member.getName());
-
-            Member member = new Member();
-            member.setId(10L);
-            member.setName("LeoBang");
 
             // 영속 상태로 들어감 => em안의 영속성 컨텍스트라는데를 통해서 member가 관리된다는 뜻.
             // 이 때 db에 저장되는 것이 아님.
@@ -46,12 +28,13 @@ public class JpaMain {
             // 영속 상태와 db저장은 무관함.
             // 언제 transaction을 commit하는 시점에 영속성 컨텍스트 안에 있는 애들이 db에 query로 날라감.
             System.out.println("=====BEFORE=====");
-            em.persist(member);
-            em.detach(member);
-
-            em.remove(member);
+            em.persist(member1);
+//            em.persist(member2);
             System.out.println("=====AFTER=====");
 
+            em.flush();
+
+            System.out.println("============");
 
             tx.commit();
         } catch (Exception e) {
