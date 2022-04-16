@@ -1,24 +1,23 @@
-package jpabook.shop.domain;
+package hellojpa;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Member {
+public class Product {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "MEMBER_ID")
+    @Id @GeneratedValue
     private Long id;
 
     private String name;
 
+    @OneToMany(mappedBy = "product")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
-
-    // Getter Setter
     public Long getId() {
         return id;
     }
@@ -34,6 +33,4 @@ public class Member {
     public void setName(String name) {
         this.name = name;
     }
-
-
 }
