@@ -81,6 +81,14 @@ public class Order {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
             throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다");
         }
+        // 그냥 status 만 바꾸었을 뿐, jpa 에게 반영해달라는 말을 안했음.
+        // entity manager 를 호출하지도 않았음.
+        // 값을 가져와서 바꾸었을 뿐. -> 그냥 jpa 가 "어 값이 바뀌었네?" 하고 transaction commit 시점에 바뀐 애 찾아서
+        // db에 update 문 날리고 transaction 을 commit 함.
+        // 정확히 말하면 flush 할 때 dirty checking 이 일어남.
+        // 이게 기본 메커니즘.
+        // 그런데 준 영속 Entity 일 때 문제가 생긴다.
+        // 준영속 엔티티 -> persistence context 가 더 이상 관리하지 않는 엔티티를 말함.
         this.setStatus(OrderStatus.CANCEL);
         for (OrderItem orderItem : this.orderItems) {
             orderItem.cancel();

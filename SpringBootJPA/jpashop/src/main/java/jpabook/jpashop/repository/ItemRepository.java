@@ -12,7 +12,6 @@ import java.util.List;
 public class ItemRepository {
     private final EntityManager em;
 
-
     public void save(Item item) {
         if (item.getId() == null) {
             // item은 jpa에 저장하기 전까지 id 값이 없음.
